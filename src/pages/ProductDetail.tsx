@@ -4,32 +4,17 @@ import { useParams } from "react-router-dom";
 import { Product } from "src/types/Product";
 import { Button, Container, Stack, Typography } from "@mui/material";
 import Loading from "src/components/Loading";
+import { useLoading } from "src/context/loading";
+import { useProduct } from "src/hooks/useProduct";
 
 function ProductDetail() {
-  const { id } = useParams();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [product, setProduct] = useState<Product | undefined>();
-
-  const getProduct = async (id: string) => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(`http://localhost:3000/products/${id}`);
-      setProduct(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    if (!id) return;
-    getProduct(id);
-  }, [id]);
+  const { product } = useProduct();
+  const { loading } = useLoading();
 
   return (
     <>
-      <Loading isShow={loading} />
       <Container>
+        <Loading isShow={loading} />
         {product && (
           <Stack direction={"row"} gap={3}>
             <img src={product.image} alt="" width={"500px"} />
@@ -39,9 +24,6 @@ function ProductDetail() {
               </Typography>
               <Typography fontWeight={"bold"} color={"Highlight"}>
                 ${product.price}
-              </Typography>
-              <Typography fontSize={"20px"}>
-                Rate: {product.rating.count}
               </Typography>
               <Typography>{product.description}</Typography>
               <Button variant="outlined">Add to cart</Button>

@@ -1,32 +1,23 @@
 import { Stack } from "@mui/material";
+import { RootState } from "@reduxjs/toolkit/query";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Loading from "src/components/Loading";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ProductCard from "src/components/ProductCard";
+import { useLoading } from "src/context/loading";
+import { useProduct } from "src/hooks/useProduct";
+// import { useProduct } from "src/hooks/useProduct";
+import { AppDispatch } from "src/redux/store";
 import { Product } from "src/types/Product";
 
 function Homepage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  // const {isLoading, setLoading } = useLoading();
+  const dispatch: AppDispatch = useDispatch();
 
-  const getAllProduct = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get("http://localhost:3000/products");
-      setProducts(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    getAllProduct();
-  }, []);
-
+  const { products } = useProduct();
   return (
     <>
-      <Loading isShow={loading} />
       <Stack
         direction={"row"}
         flexWrap={"wrap"}

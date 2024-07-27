@@ -5,8 +5,7 @@ export type Product = {
   image: string;
   description: string;
   category: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
+  isShowProduct: boolean;
 };
+
+export type ProductInputs = Omit<Product, "id">;
