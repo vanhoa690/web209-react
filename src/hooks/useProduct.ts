@@ -31,6 +31,11 @@ export const useProduct = () => {
     getAllProduct();
   }, []);
 
+  useEffect(() => {
+    if (!id) return;
+    getProductDetail(id);
+  }, [id]);
+
   const handleDeleteProduct = useCallback(async (id: string) => {
     if (window.confirm("Xoa that ko?")) {
       try {
@@ -46,9 +51,41 @@ export const useProduct = () => {
   }, []);
 
   // 3 function
-  const getProductDetail = async (id: string) => {};
-  const handleAddProduct = async (data: ProductInputs) => {};
-  const handleEditProduct = async (data: ProductInputs) => {};
+  const getProductDetail = async (id: string) => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`/products/${id}`);
+      setProduct(data);
+    } catch (error) {
+      setError((error as AxiosError)?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleAddProduct = async (data: ProductInputs) => {
+    try {
+      setLoading(true);
+      await axios.post("/products", data);
+      alert("OK");
+      nav("/admin/product/list");
+    } catch (error) {
+      setError((error as AxiosError)?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleEditProduct = async (data: ProductInputs) => {
+    try {
+      setLoading(true);
+      await axios.put(`/products/${id}`, data);
+      alert("OK");
+      nav("/admin/product/list");
+    } catch (error) {
+      setError((error as AxiosError)?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return {
     error,

@@ -4,7 +4,6 @@ import {
   Container,
   FormControl,
   FormControlLabel,
-  FormGroup,
   FormLabel,
   InputLabel,
   MenuItem,
@@ -26,8 +25,14 @@ function ProductForm({ onSubmit, product }: ProductFormProps) {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<ProductInputs>();
+
+  useEffect(() => {
+    if (!product) return;
+    reset(product);
+  }, [product]);
 
   return (
     <Container>
@@ -35,26 +40,34 @@ function ProductForm({ onSubmit, product }: ProductFormProps) {
         <Stack gap={3}>
           <FormControl>
             <FormLabel>Title</FormLabel>
-            <TextField />
+            <TextField
+              {...register("title", { required: "Required" })}
+              error={!!errors?.title}
+              helperText={errors?.title && errors.title.message}
+            />
           </FormControl>
           <FormControl>
             <FormLabel>Image</FormLabel>
-            <TextField />
+            <TextField {...register("image")} />
           </FormControl>
           <FormControl>
             <FormLabel>Price</FormLabel>
-            <TextField />
+            <TextField type="number" {...register("price")} />
           </FormControl>
           <FormControl>
             <FormLabel>Description</FormLabel>
-            <TextField multiline rows={4} />
+            <TextField multiline rows={4} {...register("description")} />
           </FormControl>
           <FormControlLabel
             control={
               <Controller
                 name="isShowProduct"
                 control={control}
-                render={({ field }) => <Checkbox {...field} />}
+                render={({ field }) => {
+                  console.log({ field });
+
+                  return <Checkbox {...field} checked={field.value || false} />;
+                }}
               />
             }
             label="Show Product"

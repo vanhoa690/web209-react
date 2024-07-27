@@ -110,9 +110,35 @@
       "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
       "price": "2",
       "description": "5",
-      "isShowProduct": false,
+      "isShowProduct": true,
       "category": "2",
       "id": 22
+    },
+    {
+      "title": "test update",
+      "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+      "price": "111",
+      "description": "11",
+      "isShowProduct": true,
+      "category": "3",
+      "id": 23
+    },
+    {
+      "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+      "price": "2",
+      "description": "3",
+      "isShowProduct": true,
+      "category": "2",
+      "id": 24
+    },
+    {
+      "title": "update",
+      "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+      "price": "3",
+      "description": "434",
+      "isShowProduct": false,
+      "category": "3",
+      "id": 25
     }
   ],
   "users": [
